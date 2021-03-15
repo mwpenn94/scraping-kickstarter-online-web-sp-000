@@ -15,14 +15,15 @@ def create_project_hash
   kickstarter = Nokogiri::HTML(html)
   projects = {}
   
-    
-    
  # Iterate through the projects
   kickstarter.css("li.project.grid_4").each do |project|
     title = project.css("h2.bbcard_name strong a").text
     
     projects[title.to_sym] = {
       :image_link => project.css("div.project-thumbnail a img").attribute("src").value,
+      :description => project.css("p.bbcard_blurb").text,
+      :location => project.css("ul.project-metaspan.location-name").text,
+      :percent-funded = project.css("ul.prohject-stats li.first.funded strong").text.gsub("%","").to_i}
   end
  
   # return the projects hash
